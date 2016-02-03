@@ -25,26 +25,12 @@ FoodItem.prototype.stringify = function(){
 }
 
 
-var orangeRuffy = new FoodItem(
-	'Orange Ruffy',
-	230,
-	false,
-	true
-	)
 
-var filetMignon = new FoodItem(
-	'Filet Mignon',
-	550,
-	false,
+var tequila = new FoodItem(
+	'Citrus Tequila',
+	100,
 	true,
-	true
-	)
-
-var pumpkinRavioli = new FoodItem(
-	'Pumpkin Ravioli',
-	360,
 	true,
-	false,
 	false
 	)
 
@@ -64,75 +50,141 @@ var guacamole = new FoodItem(
 	false
 	)
 
-console.log(orangeRuffy.stringify())
-console.log(filetMignon.stringify())
-console.log(pumpkinRavioli.stringify())
+
 
 var Drink = function(name, description, price, ingredients){
 	this.name = name;
 	this.description = description;
 	this.price = price;
-	this.ingredients = ingredients.split(",")
+	this.ingredients = ingredients
 }
 
-var mimosa = new Drink(
-	'Mimosa',
-	'Orange and Champagne',
-	8,
-	"orange juice, champagne"
-	)
+
 var margarita = new Drink (
 	'Cadillac Margarita',
 	'Fancy Margarita for You',
 	12,
-	"patron reposado, cointreau, fresh OJ, fresh lime"
-	)
-var smoothie = new Drink (
-	'Breakfast Smoothie',
-	'A Seasonal Blend of Fruit and Veggies',
-	15,
-	"fruit, kale, protein powder, hot sauce"
+	[tequila]
 	)
 
-console.log(mimosa)
-console.log(margarita)
-console.log(smoothie)
+Drink.prototype.isVegan = function(){
+	var isItVegan = false
+	// console.log(this.ingredients)
+	this.ingredients.forEach(function(element){
+		if (element.vegan === true) {
+			isItVegan = true
+		} else {isItVegan = false}
+	})
+	return isItVegan
+}
+
+Drink.prototype.isGlutenFree = function(){
+	// console.log(this.ingredients)
+	var isItGF = false
+	this.ingredients.forEach(function(element){
+		if (element.glutenFree === true) {
+			isItGF = true
+		} else {isItGF = false}
+	})
+	return isItGF
+}
+
+
+Drink.prototype.isCitrusFree = function(){
+	var isItCF = false
+	// console.log(this.ingredients)
+	this.ingredients.forEach(function(element){
+		if (element.citrusFree === true) {
+			isItCF = true
+		} else {isItCF = false}
+	})
+	return isItCF
+}
+
+Drink.prototype.stringify = function(){
+	plateText = ""
+	if (this.isVegan() === true){
+		plateText += " -- Ok, it's vegan why not? --\n"
+	} else {plateText +=" -- You better shut up Vegan --\n"}
+	if (this.isGlutenFree() === true){
+		plateText += " -- Safe for glutards -- \n"
+	} else {plateText +=" -- Sorry not sorry glutards --\n"}
+	if (this.isCitrusFree() === true){
+		plateText += " -- No citrus hyah --\n"
+	} else {plateText += " -- Citrus all up in yo grill! --\n"}
+	return plateText
+}
+
 
 
 var Plate = function(name,description,price,ingredients) {
 	this.name = name;
 	this.description = description;
 	this.price = price;
-	this.ingredients = ingredients.split(",");
+	this.ingredients = ingredients
 }
 
-var filetPlate = new Plate (
-	'Filet Dinner',
-	'Filet Mignon with Garlic Potatoes',
-	40,
-	'BEEF!, Potatoes, Garlic, Bordelaise'
-	)
 
-var ruffyPlate = new Plate (
-	'Orange Ruffy Dinner',
-	'Fish with Citrus Beur Blanc',
-	32,
-	'Stuff, stuff, stuff'
-	)
 
 var burritoPlate = new Plate (
 	'Big Burrito Dinner',
 	'A big, fat, smothered burrito with all the fixins.',
 	9,
-	'Beef, Chicken, Guacamole, Sour Cream, Green Chili (contains pork), rice, black beans'
+	[burrito]
 	)
 
 var guacPlate = new Plate (
 	'Spicy Habanero Guacomole',
 	'Chunky Guacomole with a big kick!',
 	5,
-	'Habanero, Onion, Avocado, Lime Juice, Garlic, Tomatoes, Cilantro'
+	[guacamole]
 	)
+
+Plate.prototype.isVegan = function(){
+	var isItVegan = false
+	this.ingredients.forEach(function(element){
+		if (element.vegan === true) {
+			isItVegan = true
+		} else {isItVegan = false}
+	})
+	return isItVegan
+}
+
+Plate.prototype.isGlutenFree = function(){
+	var isItGF = false
+	this.ingredients.forEach(function(element){
+		if (element.glutenFree === true) {
+			isItGF = true
+		} else {isItGF =false}
+	})
+	return isItGF
+}
+
+Plate.prototype.isCitrusFree = function(){
+	var isItCF = false
+	this.ingredients.forEach(function(element){
+		if (element.citrusFree === true) {
+			isItCF = true
+		} else {isItCF = false}
+	})
+	return isItCF
+}
+
+Plate.prototype.stringify = function(){
+	plateText = ""
+	if (this.isVegan() === true){
+		plateText += " -- Ok, it's vegan why not? -- \n"
+	} else {plateText += " -- You better shut up Vegan -- \n"}
+	if (this.isGlutenFree() === true){
+		plateText += " -- Safe for glutards -- \n"
+	} else {plateText += " -- Sorry not sorry glutards -- \n"}
+	if (this.isCitrusFree() === true){
+		plateText += " -- No citrus hyah -- "
+	} else {plateText += " -- Citrus all up in yo grill! -- "}
+	return plateText
+}
+
+
 
 
 var Menu = function(plate) {
@@ -148,20 +200,18 @@ var Order = function(myOrder) {
 	this.myOrder = myOrder
 }
 
-var lunchOrder = new Order(
-	[filetPlate, ruffyPlate]
-	)
+
 
 Menu.prototype.stringify= function (){
-
+	var menuText = ""
+	this.plate.forEach(function(element){
+	menuText += element.name + "\n"
+	menuText += element.description + "\n"
+	menuText += "Price: $" + element.price + "\n"
+	menuText += element.stringify() + "\n\n"
+}) 
+	return menuText
 }
-console.log (lunchOrder)
-
-//call property for each item in 'myOrder' array
-
-lunchOrder.myOrder.forEach(function(element) {
-	console.log(element.name)
-})
 
 var Restaurant = function(name, description, menu){
 	this.name = name
@@ -175,10 +225,10 @@ var myRestaurant = new Restaurant(
 	currentMenu
 	)
 
-console.log(myRestaurant)
+
 
 Restaurant.prototype.stringify = function(){
-	return ("Welcome to " + this.name + "!" + "\n" + this.description + "\n" + this.menu.stringify())
+		return ("Welcome to " + this.name + "!" + "\n" + this.description + "\n\n" + "Today's menu:" + "\n" + this.menu.stringify())
 
 }
 
